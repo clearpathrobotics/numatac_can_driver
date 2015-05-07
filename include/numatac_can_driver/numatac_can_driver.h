@@ -9,11 +9,7 @@
 
 
 enum { PAC = 0,
-       PDC,
-       TAC,
-       TDC,
-       ELEC_LO = 17,
-       ELEC_HI = 35
+       PDC
      };
 
 
@@ -48,6 +44,6 @@ private:
   std::vector<uint16_t> pdc_;
 };
 
-}  // numa_can_driver
+}  // numatac_can_driver
 
 #endif  // NUMATAC_CAN_DRIVER_H_

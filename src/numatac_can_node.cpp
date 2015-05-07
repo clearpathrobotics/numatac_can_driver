@@ -22,12 +22,12 @@ class NumaTacCANNode
       {
         if (!driver_.connect())
         {
-          ROS_ERROR("Error connecting to motor driver gateway. Retrying in 1 second.");
+          ROS_ERROR("Error connecting to CAN device. Retrying in 1 second.");
           return false;
         }
         else
         {
-          ROS_INFO("Connection to motor driver gateway successful.");
+          ROS_INFO("Connection to CAN device successful.");
         }
       }
       return true;

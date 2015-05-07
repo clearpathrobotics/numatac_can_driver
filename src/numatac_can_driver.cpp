@@ -33,7 +33,7 @@ bool NumaTacCANDriver::connect()
   if (ioctl(socket_, SIOCGIFINDEX, &ifr) < 0)
   {
     close(socket_);
-    ROS_ERROR("Error while trying to control device");
+    ROS_ERROR("Error while trying to device");
     return false;
   }
 
@@ -117,14 +117,12 @@ bool NumaTacCANDriver::getData()
 
         // Checking the data parity
         if ((parity_values[frame.data[j * 2 + 1] >> 1] == frame.data[j * 2 + 1])
-            && (parity_values[frame.data[j * 2 + 2] >> 1] == frame.data[j * 2 + 2]))
+         && (parity_values[frame.data[j * 2 + 2] >> 1] == frame.data[j * 2 + 2]))
         {
-
           data.bt_parity[j] = PARITY_GOOD;
         }
         else
         {
-
           data.bt_parity[j] = PARITY_BAD;
         }
       }
@@ -144,7 +142,6 @@ bool NumaTacCANDriver::getData()
       sample_count++;
 
     }
-
     return true;
   }
   else
@@ -154,13 +151,13 @@ bool NumaTacCANDriver::getData()
 
 }
 
-uint16_t NumaTacCANDriver::getPAC(uint8_t id)
-{
-  return pac_[id-1];
-}
-uint16_t NumaTacCANDriver::getPDC(uint8_t id)
-{
-  return pdc_[id-1];
-}
+  uint16_t NumaTacCANDriver::getPAC(uint8_t id)
+  {
+    return pac_[id-1];
+  }
+  uint16_t NumaTacCANDriver::getPDC(uint8_t id)
+  {
+    return pdc_[id-1];
+  }
 
 }
