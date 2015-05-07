@@ -131,11 +131,15 @@ bool NumaTacCANDriver::getData()
       {
       case PDC:
         //  Pressure DC
-        pac_[data.channel_id-1] =  data.d[data.channel_id].word;
+        pdc_[0] =  data.d[0].word;
+        pdc_[1] =  data.d[1].word;
+        pdc_[2] =  data.d[2].word;
         break;
       case PAC:
         //  Pressure AC
-        pdc_[data.channel_id-1] =  data.d[data.channel_id].word;
+        pac_[0] =  data.d[0].word;
+        pac_[1] =  data.d[1].word;
+        pac_[2] =  data.d[2].word;
         break;
       }
 
@@ -153,11 +157,11 @@ bool NumaTacCANDriver::getData()
 
   uint16_t NumaTacCANDriver::getPAC(uint8_t id)
   {
-    return pac_[id-1];
+    return pac_[id];
   }
   uint16_t NumaTacCANDriver::getPDC(uint8_t id)
   {
-    return pdc_[id-1];
+    return pdc_[id];
   }
 
 }
