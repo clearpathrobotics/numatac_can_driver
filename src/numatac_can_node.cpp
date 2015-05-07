@@ -88,6 +88,7 @@ class NumaTacCANNode
             tare_pdc_[i] = driver_.getPDC(i);
           }
           tare_ = false;
+          ROS_INFO("Tare complete.");
         }
         else
         {
@@ -128,7 +129,7 @@ int main(int argc, char **argv)
 
   pnh.param<std::string>("canbus_dev", canbus_dev, "can0");
   pnh.param<int>("number_of_sensors", number_of_sensors, 3);
-  pnh.param<bool>("tare", tare, true);
+  pnh.param<bool>("tare", tare, false);
 
   numatac_can_driver::NumaTacCANDriver driver(canbus_dev, number_of_sensors);
 
