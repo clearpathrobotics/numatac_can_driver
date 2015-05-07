@@ -66,7 +66,7 @@ class NumaTacCANNode
     void run()
     {
 
-      ros::Rate rate(100);
+      ros::Rate rate(1000);
 
       while (ros::ok())
       {
@@ -78,7 +78,6 @@ class NumaTacCANNode
 
         while(driver_.getData())
         {
-
         }
 
         if(tare_)

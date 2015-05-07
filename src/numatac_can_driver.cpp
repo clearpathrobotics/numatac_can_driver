@@ -158,23 +158,25 @@ bool NumaTacCANDriver::getData()
         pdc_[0] =  data.d[0].word;
         pdc_[1] =  data.d[1].word;
         pdc_[2] =  data.d[2].word;
-        break;
+        return true;
       case PAC:
         //  Pressure AC
         pac_[0] =  data.d[0].word;
         pac_[1] =  data.d[1].word;
         pac_[2] =  data.d[2].word;
-        break;
+        return false;
+      default:
+        return true;
       }
 
       sample_count++;
 
     }
-    return true;
+
   }
   else
   {
-    return false;
+    return true;
   }
 
 }
