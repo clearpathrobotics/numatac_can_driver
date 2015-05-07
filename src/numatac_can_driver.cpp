@@ -155,7 +155,7 @@ bool NumaTacCANDriver::getData()
 
 }
 
-  uint16_t NumaTacCANDriver::getPAC(uint8_t id)
+  int16_t NumaTacCANDriver::getPAC(uint8_t id)
   {
     return pac_[id];
   }

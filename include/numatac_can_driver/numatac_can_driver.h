@@ -19,10 +19,10 @@ namespace numatac_can_driver
 class NumaTacCANDriver
 {
 public:
-  NumaTacCANDriver(std::string canbus_dev):
+  NumaTacCANDriver(std::string canbus_dev, uint8_t number_of_sensors):
     canbus_dev_(canbus_dev),
     is_connected_(false),
-    number_of_sensors_(3)
+    number_of_sensors_(number_of_sensors)
   {
     pac_.resize(number_of_sensors_);
     pdc_.resize(number_of_sensors_);
@@ -31,7 +31,7 @@ public:
   bool connect();
   bool isConnected();
   bool getData();
-  uint16_t getPAC(uint8_t id);
+  int16_t getPAC(uint8_t id);
   uint16_t getPDC(uint8_t id);
 
 private:
@@ -40,7 +40,7 @@ private:
   bool is_connected_;
   uint8_t number_of_sensors_;
 
-  std::vector<uint16_t> pac_;
+  std::vector<int16_t> pac_;
   std::vector<uint16_t> pdc_;
 };
 

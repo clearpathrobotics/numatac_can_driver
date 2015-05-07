@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 #include "ros/ros.h"
 #include "numatac_can_driver/numatac_can_driver.h"
@@ -7,13 +8,18 @@
 class NumaTacCANNode
 {
   public:
-    NumaTacCANNode(ros::NodeHandle& nh, ros::NodeHandle& pnh, numatac_can_driver::NumaTacCANDriver& driver) :
+    NumaTacCANNode(ros::NodeHandle& nh, ros::NodeHandle& pnh,
+      numatac_can_driver::NumaTacCANDriver& driver, uint8_t number_of_sensors, bool tare) :
       driver_(driver),
-      number_of_sensors_(3)
+      number_of_sensors_(number_of_sensors),
+      tare_(tare)
     {
-      pressure_pub_ = nh.advertise<numatac_can_driver::HandPressure>("hand_pressure", 100);
 
       pressure_msg_.fingers.resize(number_of_sensors_);
+      pressure_pub_ = nh.advertise<numatac_can_driver::HandPressure>("hand_pressure", 100);
+
+      tare_pac_.resize(number_of_sensors_);
+      tare_pdc_.resize(number_of_sensors_);
     }
 
     bool connectIfNotConnected()
@@ -48,18 +54,31 @@ class NumaTacCANNode
 
         while(driver_.getData())
         {
-          
+
         }
 
-        pressure_msg_.header.stamp = ros::Time::now();
-
-        for (int i = 0; i < number_of_sensors_; i++)
+        if(tare_)
         {
-          pressure_msg_.fingers[i].fluid_pressure = (driver_.getPAC(i) - 0) * 12.94;
-          pressure_msg_.fingers[i].dynamic_pressure = (driver_.getPDC(i) - 0) * 0.13;
-          pressure_msg_.fingers[i].finger_number = i + 1;
+          for (int i = 0; i < number_of_sensors_; i++)
+          {
+            tare_pac_[i] = driver_.getPAC(i);
+            tare_pdc_[i] = driver_.getPDC(i);
+          }
+          tare_ = false;
         }
-        pressure_pub_.publish(pressure_msg_);
+        else
+        {
+          pressure_msg_.header.stamp = ros::Time::now();
+
+          for (int i = 0; i < number_of_sensors_; i++)
+          {
+            pressure_msg_.fingers[i].fluid_pressure = (driver_.getPDC(i) - tare_pdc_[i]) * 12.94;
+            pressure_msg_.fingers[i].dynamic_pressure = (driver_.getPAC(i) - tare_pac_[i]) * 0.13;
+            pressure_msg_.fingers[i].finger_number = i + 1;
+          }
+          pressure_pub_.publish(pressure_msg_);
+        }
+
 
         rate.sleep();
       }
@@ -67,6 +86,9 @@ class NumaTacCANNode
 
   private:
     uint8_t number_of_sensors_;
+    bool tare_;
+    std::vector<int16_t> tare_pac_;
+    std::vector<uint16_t> tare_pdc_;
     numatac_can_driver::NumaTacCANDriver& driver_;
     numatac_can_driver::HandPressure pressure_msg_;
     ros::Publisher pressure_pub_;
@@ -77,10 +99,17 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "numatac_can_driver");
   ros::NodeHandle nh, pnh("~");
 
-  std::string canbus_dev = "can0";
-  numatac_can_driver::NumaTacCANDriver driver(canbus_dev);
+  int number_of_sensors;
+  std::string canbus_dev;
+  bool tare;
 
-  NumaTacCANNode node(nh, pnh, driver);
+  pnh.param<std::string>("canbus_dev", canbus_dev, "can0");
+  pnh.param<int>("number_of_sensors", number_of_sensors, 3);
+  pnh.param<bool>("tare", tare, true);
+
+  numatac_can_driver::NumaTacCANDriver driver(canbus_dev, number_of_sensors);
+
+  NumaTacCANNode node(nh, pnh, driver, number_of_sensors, tare);
 
   node.run();
 
