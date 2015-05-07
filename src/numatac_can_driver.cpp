@@ -133,7 +133,7 @@ bool NumaTacCANDriver::getData()
 
       data.channel_id = (frame.data[0] & 0x7E) >> 1;
 
-      for (int j = 0; j < MAX_BIOTACS_FOR_JACO; j++)
+      for (int j = 0; j < number_of_sensors_; j++)
       {
 
         // Combine two bytes of CAN message into a word (2 bytes) of data
