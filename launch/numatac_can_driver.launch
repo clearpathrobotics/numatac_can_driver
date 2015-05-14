@@ -1,0 +1,4 @@
+<launch>
+  <!-- numatac_can_driver -->
+  <node pkg="numatac_can_driver" type="numatac_can_node" name="numatac_can_node" output="screen" /> 
+</launch>
