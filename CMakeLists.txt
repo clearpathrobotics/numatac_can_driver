@@ -56,7 +56,6 @@ install(TARGETS numatac_can_node numatac_can_driver
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
   FILES_MATCHING PATTERN "*.h"
-  PATTERN ".svn" EXCLUDE
 )
 
 install(DIRECTORY launch
