@@ -3,7 +3,6 @@ project(numatac_can_driver)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  libpcan
   message_generation
   std_msgs
   )
@@ -23,7 +22,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES numatac_can_driver
-  CATKIN_DEPENDS roscpp libpcan message_runtime
+  CATKIN_DEPENDS roscpp message_runtime
 )
 
 include_directories(
@@ -54,9 +53,11 @@ install(TARGETS numatac_can_node numatac_can_driver
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
   FILES_MATCHING PATTERN "*.h"
   PATTERN ".svn" EXCLUDE
 )
+
+install(DIRECTORY launch
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
