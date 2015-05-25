@@ -38,9 +38,10 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 namespace numatac_can_driver
 {
 
-enum { PAC = 0,
-       PDC = 1
-     };
+enum {
+  PAC = 0,
+  PDC = 1
+};
 
 class NumaTacCANDriver
 {
@@ -64,6 +65,6 @@ private:
   std::vector<uint16_t> pdc_;
 };
 
-}  // numatac_can_driver
+}  // namespace numatac_can_driver
 
 #endif  // NUMATAC_CAN_DRIVER_H_
