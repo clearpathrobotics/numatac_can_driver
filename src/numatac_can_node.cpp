@@ -46,6 +46,8 @@ class NumaTacCANNode
       tare_pdc_.resize(number_of_sensors_);
     }
 
+    ~NumaTacCANNode(void){};
+
     bool connectIfNotConnected()
     {
       if (!driver_.isConnected())
@@ -102,7 +104,6 @@ class NumaTacCANNode
           }
           pressure_pub_.publish(pressure_msg_);
         }
-
 
         rate.sleep();
       }
