@@ -41,6 +41,15 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 namespace numatac_can_driver
 {
 
+NumaTacCANDriver::NumaTacCANDriver(std::string canbus_dev, uint8_t number_of_sensors):
+  canbus_dev_(canbus_dev),
+  is_connected_(false),
+  number_of_sensors_(number_of_sensors)
+{
+  pac_.resize(number_of_sensors_);
+  pdc_.resize(number_of_sensors_);
+}
+
 bool NumaTacCANDriver::connect()
 {
 
@@ -153,17 +162,19 @@ bool NumaTacCANDriver::getData()
 
       switch (data.channel_id)
       {
-      case PDC:
+      case numatac_can_driver::PDC:
         //  Pressure DC
-        pdc_[0] =  data.d[0].word;
-        pdc_[1] =  data.d[1].word;
-        pdc_[2] =  data.d[2].word;
+        for (int i = 0; i < number_of_sensors_; i++)
+        {
+          pdc_[i] =  data.d[i].word;
+        }
         return true;
-      case PAC:
+      case numatac_can_driver::PAC:
         //  Pressure AC
-        pac_[0] =  data.d[0].word;
-        pac_[1] =  data.d[1].word;
-        pac_[2] =  data.d[2].word;
+        for (int i = 0; i < number_of_sensors_; i++)
+        {
+          pac_[i] =  data.d[i].word;
+        }
         return false;
       default:
         return true;
@@ -181,13 +192,13 @@ bool NumaTacCANDriver::getData()
 
 }
 
-  int16_t NumaTacCANDriver::getPAC(uint8_t id)
-  {
-    return pac_[id];
-  }
-  uint16_t NumaTacCANDriver::getPDC(uint8_t id)
-  {
-    return pdc_[id];
-  }
-
+int16_t NumaTacCANDriver::getPAC(uint8_t id)
+{
+  return pac_[id];
 }
+uint16_t NumaTacCANDriver::getPDC(uint8_t id)
+{
+  return pdc_[id];
+}
+
+}  // namespace numatac_can_driver

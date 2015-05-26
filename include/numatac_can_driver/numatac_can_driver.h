@@ -32,25 +32,22 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSI
 #include "bt_can.h"
 
 
-enum { PAC = 0,
-       PDC
-     };
+
 
 
 namespace numatac_can_driver
 {
 
+enum {
+  PAC = 0,
+  PDC = 1
+};
+
 class NumaTacCANDriver
 {
 public:
-  NumaTacCANDriver(std::string canbus_dev, uint8_t number_of_sensors):
-    canbus_dev_(canbus_dev),
-    is_connected_(false),
-    number_of_sensors_(number_of_sensors)
-  {
-    pac_.resize(number_of_sensors_);
-    pdc_.resize(number_of_sensors_);
-  }
+  NumaTacCANDriver(std::string canbus_dev, uint8_t number_of_sensors);
+  ~NumaTacCANDriver(void){};
 
   bool connect();
   bool isConnected();
@@ -68,6 +65,6 @@ private:
   std::vector<uint16_t> pdc_;
 };
 
-}  // numatac_can_driver
+}  // namespace numatac_can_driver
 
 #endif  // NUMATAC_CAN_DRIVER_H_
