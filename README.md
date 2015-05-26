@@ -16,4 +16,4 @@ To run the driver use:
 
 `roslaunch numatac_can_driver numatac_can_driver.launch`
 
-[1]: www.syntouchllc.com/Products/NumaTac/_media/NumaTac_Product_Manual.pdf
+[1]: http://www.syntouchllc.com/Products/NumaTac/_media/NumaTac_Product_Manual.pdf
