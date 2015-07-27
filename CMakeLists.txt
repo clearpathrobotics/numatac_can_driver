@@ -61,7 +61,7 @@ install(DIRECTORY launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 if (CATKIN_ENABLE_TESTING)
-	find_package(roslint REQUIRED)
+  find_package(roslint REQUIRED)
   file(GLOB LINT_SRCS
     src/*.cpp
     include/numatac_can_driver/numatac_can_driver.h)
