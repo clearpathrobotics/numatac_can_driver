@@ -9,7 +9,7 @@ Redistribution and use in source and binary forms, with or without modification,
 the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions and the
    following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the 
+ * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
    following disclaimer in the documentation and/or other materials provided with the distribution.
  * Neither the name of Clearpath Robotics nor the names of its contributors may be used to endorse or promote
    products derived from this software without specific prior written permission.
@@ -38,7 +38,6 @@ class NumaTacCANNode
       number_of_sensors_(number_of_sensors),
       tare_(tare)
     {
-
       pressure_msg_.fingers.resize(number_of_sensors_);
       pressure_pub_ = nh.advertise<numatac_can_driver::HandPressure>("hand_pressure", 100);
 
@@ -67,9 +66,7 @@ class NumaTacCANNode
 
     void run()
     {
-
       ros::Rate rate(1000);
-
       while (ros::ok())
       {
         if (!connectIfNotConnected())
@@ -78,11 +75,11 @@ class NumaTacCANNode
           continue;
         }
 
-        while(driver_.getData())
+        while (driver_.getData())
         {
         }
 
-        if(tare_)
+        if (tare_)
         {
           for (int i = 0; i < number_of_sensors_; i++)
           {
@@ -137,5 +134,4 @@ int main(int argc, char **argv)
   NumaTacCANNode node(nh, pnh, driver, number_of_sensors, tare);
 
   node.run();
-
 }

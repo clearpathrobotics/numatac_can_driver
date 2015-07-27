@@ -9,7 +9,7 @@ Redistribution and use in source and binary forms, with or without modification,
 the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions and the
    following disclaimer.
- * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the 
+ * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the
    following disclaimer in the documentation and/or other materials provided with the distribution.
  * Neither the name of Clearpath Robotics nor the names of its contributors may be used to endorse or promote
    products derived from this software without specific prior written permission.
@@ -52,8 +52,7 @@ NumaTacCANDriver::NumaTacCANDriver(std::string canbus_dev, uint8_t number_of_sen
 
 bool NumaTacCANDriver::connect()
 {
-
-  if((socket_ = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0)
+  if ((socket_ = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0)
   {
     ROS_ERROR("Error while opening socket");
     return false;
@@ -61,7 +60,7 @@ bool NumaTacCANDriver::connect()
 
   struct ifreq ifr;
 
-  strcpy(ifr.ifr_name, canbus_dev_.c_str());
+  snprintf (ifr.ifr_name, sizeof(canbus_dev_.c_str()), "%s", canbus_dev_.c_str());
 
   if (ioctl(socket_, SIOCGIFINDEX, &ifr) < 0)
   {
@@ -72,11 +71,10 @@ bool NumaTacCANDriver::connect()
 
   struct sockaddr_can addr;
   addr.can_family  = AF_CAN;
-  addr.can_ifindex = ifr.ifr_ifindex; 
-
+  addr.can_ifindex = ifr.ifr_ifindex;
   ROS_DEBUG("%s at index %d", canbus_dev_.c_str(), ifr.ifr_ifindex);
 
-  if(bind(socket_, (struct sockaddr *)&addr, sizeof(addr)) < 0)
+  if (bind(socket_, (struct sockaddr *)&addr, sizeof(addr)) < 0)
   {
     ROS_ERROR("Error in socket bind");
     return false;
@@ -84,7 +82,7 @@ bool NumaTacCANDriver::connect()
 
   struct timeval tv;
   tv.tv_sec = 0;
-  tv.tv_usec = 1; // microseconds
+  tv.tv_usec = 1;  // microseconds
 
   setsockopt(socket_, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 
@@ -123,12 +121,12 @@ bool NumaTacCANDriver::getData()
       {
         if (i == 0)
         {
-          data.batch_index ++;
+          data.batch_index++;
         }
 
         if ((i % (biotac.frame.frame_size)) == 0)
         {
-          data.frame_index ++;
+          data.frame_index++;
         }
 
         data.time = 0.0;
@@ -144,7 +142,6 @@ bool NumaTacCANDriver::getData()
 
       for (int j = 0; j < number_of_sensors_; j++)
       {
-
         // Combine two bytes of CAN message into a word (2 bytes) of data
         data.d[j].word = (frame.data[j * 2 + 1] >> 1) * 32 + (frame.data[j * 2 + 2] >> 3);
 
@@ -181,15 +178,12 @@ bool NumaTacCANDriver::getData()
       }
 
       sample_count++;
-
     }
-
   }
   else
   {
     return true;
   }
-
 }
 
 int16_t NumaTacCANDriver::getPAC(uint8_t id)

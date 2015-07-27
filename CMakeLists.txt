@@ -41,7 +41,6 @@ target_link_libraries(numatac_can_driver
 add_dependencies(numatac_can_driver numatac_can_driver_gencpp)
 add_executable(numatac_can_node src/numatac_can_node.cpp)
 
-
 target_link_libraries(numatac_can_node
   numatac_can_driver
   ${catkin_LIBRARIES}
@@ -60,3 +59,16 @@ install(DIRECTORY include/${PROJECT_NAME}/
 
 install(DIRECTORY launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+if (CATKIN_ENABLE_TESTING)
+	find_package(roslint REQUIRED)
+  file(GLOB LINT_SRCS
+    src/*.cpp
+    include/numatac_can_driver/numatac_can_driver.h)
+  roslint_cpp(${LINT_SRCS})
+  roslint_add_test()
+
+  find_package(roslaunch REQUIRED)
+  roslaunch_add_file_check(launch/numatac_can_driver.launch)
+
+endif()
