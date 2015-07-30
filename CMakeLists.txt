@@ -22,7 +22,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES numatac_can_driver
-  CATKIN_DEPENDS roscpp message_runtime
+  CATKIN_DEPENDS roscpp std_msgs message_runtime
 )
 
 include_directories(
