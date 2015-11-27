@@ -1,4 +1,4 @@
-numatac_can_driver
+numatac_can_driver [![Build Status](https://travis-ci.org/clearpathrobotics/numatac_can_driver.svg?branch=indigo-devel)](https://travis-ci.org/clearpathrobotics/numatac_can_driver)
 ==================
 
 ROS driver for NumaTac tactile sensors. See [product manual][1] for details.
