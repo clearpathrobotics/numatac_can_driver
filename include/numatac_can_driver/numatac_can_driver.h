@@ -48,7 +48,6 @@ class NumaTacCANDriver
 {
 public:
   NumaTacCANDriver(std::string canbus_dev, uint8_t number_of_sensors);
-  ~NumaTacCANDriver(void){};
 
   bool connect();
   bool isConnected();
