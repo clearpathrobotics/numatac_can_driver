@@ -4,7 +4,7 @@ numatac_can_driver [![Build Status](https://travis-ci.org/clearpathrobotics/numa
 ROS driver for NumaTac tactile sensors. See [product manual][1] for details.
 
 ### Bring-up ###
-To bring up the NumaTac tactile sensors, plug in the USB connector.  Configure the CAN interface by running the following command in a command line prompt:
+To bring up the NumaTac tactile sensors on Ubuntu 14.04, plug in the USB connector.  Configure the CAN interface by running the following command in a command line prompt:
 
 `sudo ip link set can0 type can bitrate 1000000`
 
